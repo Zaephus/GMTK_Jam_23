@@ -72,8 +72,9 @@ public class EntityController : MonoBehaviour {
             velocity = Vector2.zero;
             
             CalculateCurrentPos();
-
-            yield return new WaitForSeconds(afterMovingWaitTime);
+            if(afterMovingWaitTime > 0.0f) {
+                yield return new WaitForSeconds(afterMovingWaitTime);
+            }
 
         }
 
