@@ -18,6 +18,11 @@ public class EntityController : MonoBehaviour {
 
     private bool isMoving;
 
+    [SerializeField]
+    protected Animator animator;
+
+    protected Vector2 velocity;
+
     private Dictionary<Vector2Int, GridNode> gridNodes;
     private List<GridNode> openNodes;
     private List<GridNode> closedNodes;
@@ -43,6 +48,8 @@ public class EntityController : MonoBehaviour {
 
     private IEnumerator MoveOverPath(List<Vector2Int> _path) {
 
+        Vector2 previousPos = transform.position;
+
         CalculateCurrentPos();
 
         int pathNodeNum = 0;
@@ -54,10 +61,15 @@ public class EntityController : MonoBehaviour {
             while(isMoving && Vector2.Distance(_path[pathNodeNum], new Vector2(transform.position.x, transform.position.y)) > 0.001f) {
                 transform.position = Vector3.Lerp(new Vector3(currentPos.x, currentPos.y), new Vector3(_path[pathNodeNum].x, _path[pathNodeNum].y), completion);
 
+                velocity = ((Vector2)transform.position - previousPos) / Time.deltaTime;
+                previousPos = transform.position;
+
                 completion += moveSpeed * Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
             pathNodeNum++;
+
+            velocity = Vector2.zero;
             
             CalculateCurrentPos();
 
@@ -161,53 +173,26 @@ public class EntityController : MonoBehaviour {
     private List<GridNode> GetNeighbouringNodes(GridNode _node) {
         List<GridNode> neighbours = new List<GridNode>();
 
+        Vector2Int[] relativePositions = {
+            new Vector2Int(-1, 0),
+            new Vector2Int(1, 0),
+            new Vector2Int(0, -1),
+            new Vector2Int(0, 1)
+        };
+
         Vector2Int neighbourPos;
 
-        neighbourPos = _node.position + new Vector2Int(-1, 0);
-        if(grid.tiles.ContainsKey(neighbourPos) && grid.tiles[neighbourPos] == TileType.None) {
-            if(gridNodes.ContainsKey(neighbourPos)) {
-                neighbours.Add(gridNodes[neighbourPos]);
-            }
-            else {
-                GridNode newNeighbour = new GridNode(neighbourPos, null, 0, 0);
-                neighbours.Add(newNeighbour);
-                gridNodes.Add(neighbourPos, newNeighbour);
-            }
-        }
-
-        neighbourPos = _node.position + new Vector2Int(1, 0);
-        if(grid.tiles.ContainsKey(neighbourPos) && grid.tiles[neighbourPos] == TileType.None) {
-            if(gridNodes.ContainsKey(neighbourPos)) {
-                neighbours.Add(gridNodes[neighbourPos]);
-            }
-            else {
-                GridNode newNeighbour = new GridNode(neighbourPos, null, 0, 0);
-                neighbours.Add(newNeighbour);
-                gridNodes.Add(neighbourPos, newNeighbour);
-            }
-        }
-
-        neighbourPos = _node.position + new Vector2Int(0, -1);
-        if(grid.tiles.ContainsKey(neighbourPos) && grid.tiles[neighbourPos] == TileType.None) {
-            if(gridNodes.ContainsKey(neighbourPos)) {
-                neighbours.Add(gridNodes[neighbourPos]);
-            }
-            else {
-                GridNode newNeighbour = new GridNode(neighbourPos, null, 0, 0);
-                neighbours.Add(newNeighbour);
-                gridNodes.Add(neighbourPos, newNeighbour);
-            }
-        }
-
-        neighbourPos = _node.position + new Vector2Int(0, 1);
-        if(grid.tiles.ContainsKey(neighbourPos) && grid.tiles[neighbourPos] == TileType.None) {
-            if(gridNodes.ContainsKey(neighbourPos)) {
-                neighbours.Add(gridNodes[neighbourPos]);
-            }
-            else {
-                GridNode newNeighbour = new GridNode(neighbourPos, null, 0, 0);
-                neighbours.Add(newNeighbour);
-                gridNodes.Add(neighbourPos, newNeighbour);
+        for(int i = 0; i < 4; i++) {
+            neighbourPos = _node.position + relativePositions[i];
+            if(grid.tiles.ContainsKey(neighbourPos) && grid.tiles[neighbourPos] == TileType.None) {
+                if(gridNodes.ContainsKey(neighbourPos)) {
+                    neighbours.Add(gridNodes[neighbourPos]);
+                }
+                else {
+                    GridNode newNeighbour = new GridNode(neighbourPos, null, 0, 0);
+                    neighbours.Add(newNeighbour);
+                    gridNodes.Add(neighbourPos, newNeighbour);
+                }
             }
         }
 

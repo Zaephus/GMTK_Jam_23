@@ -3,13 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroController : MonoBehaviour {
+public class HeroController : EntityController {
 
-    [SerializeField]
-    private Grid grid;
-
-    private void Start() {
-        Debug.Log(grid.LocalToCell(new Vector3(0.0f, -1.0f, 0.0f)));
+    private void Update() {
+        animator.SetFloat("XVelocity", velocity.x);
+        animator.SetFloat("YVelocity", velocity.y);
     }
 
 }
