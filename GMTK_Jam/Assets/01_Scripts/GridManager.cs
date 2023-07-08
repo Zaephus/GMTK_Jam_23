@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour {
     [SerializeField]
     private Tilemap topMap;
     
-    private void Start() {
+    private void Awake() {
 
         EntityMovedCall += EntityMoved;
 

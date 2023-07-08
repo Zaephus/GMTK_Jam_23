@@ -22,10 +22,8 @@ public class EntityController : MonoBehaviour {
     private List<GridNode> openNodes;
     private List<GridNode> closedNodes;
 
-    public List<Vector2Int> path;
-
     private void Start() {
-        MoveTo(new Vector2Int(10, 1));
+        MoveTo(new Vector2Int(9, 1));
     }
 
     private void Update() {}
@@ -38,8 +36,8 @@ public class EntityController : MonoBehaviour {
             Debug.DrawLine(new Vector3(path[i-1].x, path[i-1].y, 0), new Vector3(path[i].x, path[i].y, 0), Color.yellow, 1000000000f);
         }
         
-        // isMoving = true;
-        // StartCoroutine(MoveOverPath(path));
+        isMoving = true;
+        StartCoroutine(MoveOverPath(path));
 
     }
 
@@ -121,7 +119,7 @@ public class EntityController : MonoBehaviour {
 
         }
 
-        path = new List<Vector2Int>();
+        List<Vector2Int> path = new List<Vector2Int>();
 
         while(currentNode.parent != null) {
             path.Add(currentNode.position);
