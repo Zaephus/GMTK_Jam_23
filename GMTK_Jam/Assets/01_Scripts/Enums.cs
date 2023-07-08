@@ -1,8 +1,14 @@
 
 public enum TileType {
     None = 0,
-    Entity = 1,
-    Wall = 99
+    Wall = 1,
+    Entity = 2
+}
+
+public enum EntityType {
+    Hero = 0,
+    Slime = 1,
+    TestEnemy = 2
 }
 
 public enum GameState {
