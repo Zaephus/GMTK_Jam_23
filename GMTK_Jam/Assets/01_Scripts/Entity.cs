@@ -6,5 +6,4 @@ using UnityEngine;
 public class Entity : MonoBehaviour {
     public EntityType type;
     public Sprite thumbnail;
-    
 }

@@ -19,6 +19,9 @@ public class PlacementManager : MonoBehaviour {
     [SerializeField]
     private GameObject[] placeableEntities;
 
+    [SerializeField]
+    private Transform entityContainer;
+
     [Header("Entity Cards")]
     [SerializeField]
     private GameObject entityCardPrefab;
@@ -103,7 +106,7 @@ public class PlacementManager : MonoBehaviour {
         if(grid.entities.ContainsKey(currentGridPos)) {
             Destroy(grid.entities[currentGridPos].gameObject);
         }
-        Entity e = Instantiate(placeableEntities[currentEntityIndex], new Vector3(currentGridPos.x, currentGridPos.y), Quaternion.identity).GetComponent<Entity>();
+        Entity e = Instantiate(placeableEntities[currentEntityIndex], new Vector3(currentGridPos.x, currentGridPos.y), Quaternion.identity, entityContainer).GetComponent<Entity>();
         grid.AddEntity(currentGridPos, e);
     }
 

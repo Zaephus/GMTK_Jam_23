@@ -6,20 +6,13 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : MonoBehaviour {
 
-    // public static System.Action<Vector2Int, Vector2Int> EntityMovedCall;
-
     public Dictionary<Vector2Int, TileType> tiles = new Dictionary<Vector2Int, TileType>();
     public Dictionary<Vector2Int, Entity> entities = new Dictionary<Vector2Int, Entity>();
-    // TODO: Implement entities dictionary.
 
     [SerializeField]
     private Tilemap topMap;
     
     private void Awake() {
-
-        // EntityMovedCall += MoveEntity;
-
-        // TODO: Make sure world does not have to be at (-0.5f, -0.5f).
 
         for(int x = 0; x < topMap.localBounds.extents.x * 2; x++) {
             for(int y = 0; y < topMap.localBounds.extents.y * 2; y++) {
@@ -69,25 +62,5 @@ public class GridManager : MonoBehaviour {
             entities.Remove(_pos);
         }
     }
-
-    // public void MoveEntity(Vector2Int _oldPos, Vector2Int _newPos) {
-    //     if(tiles.ContainsKey(_oldPos)) {
-    //         tiles[_oldPos] = TileType.None;
-    //     }
-    //     if(tiles.ContainsKey(_newPos)) {
-    //         tiles[_newPos] = TileType.Entity;
-    //     }
-    //     else {
-    //         tiles.Add(_newPos, TileType.Entity);
-    //     }
-
-    //     if(entities.ContainsKey(_oldPos)) {
-    //         entities.Remove(_oldPos);
-    //     }
-    //     if(entities.ContainsKey(_newPos)) {
-    //         entities[_newPos] = 
-    //     }
-
-    // }
 
 }
